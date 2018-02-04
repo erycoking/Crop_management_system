@@ -22,7 +22,7 @@
 	    <form class="form-inline my-2 my-lg-0" action="{{ route('search') }}" method="post">
             {{ csrf_field() }}
 	      <input class="form-control mr-sm-2" type="text" name="search_string"
-                 placeholder="Search using name or harvesting method">
+                 placeholder="Search name or method">
 	      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 	    </form>
 	  </div>

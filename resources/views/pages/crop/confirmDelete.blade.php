@@ -9,7 +9,7 @@
 				<h3>Edit Crop</h3>
 			</div>
 			<div class="row, justify-content-center">
-				<p class="lead alert alert-danger">Are you sure, you want to delete!!!</p>
+				<p class="lead alert alert-danger">Are you sure, you want to delete !!!</p>
 			</div>
 			<div class="edit">
 				@include('partials.message')
@@ -37,7 +37,7 @@
 						@foreach($crop->disease as $disease)
 						<div class="input-group remove">
 							<div class="input-group-addon">
-								<span class="glyphicon glyphicon-minus"></span> 
+								<i class="fas fa-minus"></i>
 							</div>
 							<input type="text" class="form-control" readonly="readonly" id="diseases" name="diseases[]" required="required" value="{{ $disease->name }}">
 						</div>

@@ -7,6 +7,7 @@ use App\Crop;
 use App\Disease;
 
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 
 class CropController extends Controller
 {
@@ -47,19 +48,32 @@ class CropController extends Controller
             'diseases.*'=>'required|max:45'
         ]);
 
-        $crop = new Crop;
-        $crop->name = $request->input('name');
-        $crop->altitude = $request->input('altitude');
-        $crop->farming_method = $request->input('harvesting_method');
-        $crop->harvesting_time = Carbon::parse($request->input('harvesting_time'));
-        $crop->save();
+        $crop_existing = Crop::where('name', '=', $request->input('name'))->get();
+        if(count($crop_existing) > 0){
+            return redirect()->back()->withErrors( 'crops already exists');
+        }else{
+            $crop = new Crop;
+            $crop->name = $request->input('name');
+            $crop->altitude = $request->input('altitude');
+            $crop->farming_method = $request->input('harvesting_method');
+            $crop->harvesting_time = Carbon::parse($request->input('harvesting_time'));
+            $crop->save();
 
-        $diseases = $request->input('diseases');
-        foreach ($diseases as $value) {
-            $disease = new Disease;
-            $disease->name = $value;
-            $crop->disease()->save($disease);
+            $diseases = $request->input('diseases');
+            $new_diseases = collect($diseases);
+            $unique = $new_diseases->unique();
+            foreach ($unique as $value) {
+                $disease = Disease::where('name', '=', $value)->first();
+                if (count($disease) > 0){
+                    $crop->disease()->attach($disease);
+                }else{
+                    $dis = new Disease;
+                    $dis->name = $value;
+                    $crop->disease()->save($dis);
+                }
+            }
         }
+
 
         return redirect()->route('crop.index');
     }
@@ -119,11 +133,14 @@ class CropController extends Controller
         $crop->harvesting_time = Carbon::parse($request->input('harvesting_time'));
         $crop->save();
 
+        $crop->disease()->detach();
         $diseases = $request->input('diseases');
-        foreach ($diseases as $value) {
-            $disease = new Disease;
-            $disease->name = $value;
-            $crop->disease()->save($disease);
+        $new_diseases = collect($diseases);
+        $unique = $new_diseases->unique();
+        foreach ($unique as $value) {
+            $dis = new Disease;
+            $dis->name = $value;
+            $crop->disease()->save($dis);
         }
 
         return redirect()->route('crop.show', [$crop]);

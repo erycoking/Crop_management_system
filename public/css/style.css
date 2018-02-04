@@ -8,9 +8,12 @@ html, body{
 
 .body{
     min-height: 100%;
+    margin-bottom:30px;
+    padding-bottom: 5px;
 }
 .content{
     overflow: auto;
+
 }
 
 .footer{

@@ -8,7 +8,11 @@
     	$('.dis:last').remove();
     });
     $('.remove').click(function(){
-    	$(this).remove();
+        if($('.diseases').length > 1){
+            $(this).remove();
+        }else{
+            alert('disease is a required field.');
+        }
     });
   });
 

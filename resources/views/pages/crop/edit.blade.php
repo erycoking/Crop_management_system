@@ -34,9 +34,9 @@
 						@foreach($crop->disease as $disease)
 						<div class="input-group remove">
 							<div class="input-group-addon">
-								<span class="glyphicon glyphicon-minus"></span> 
+								<i class="fas fa-minus"></i>
 							</div>
-							<input type="text" class="form-control" id="diseases" name="diseases[]" required="required" value="{{ $disease->name }}">
+							<input type="text" class="form-control diseases" id="diseases" name="diseases[]" required="required" value="{{ $disease->name }}">
 						</div>
 						@endforeach
 						<button type="button" class="btn btn-primary" id="disease">Add Disease</button>
