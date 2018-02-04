@@ -18,4 +18,5 @@ Route::group(['middleware'=>['web']], function(){
 	Route::resource('crop', 'CropController');
 	Route::resource('disease', 'DiseaseController');
 	Route::get('/delete/{id}', 'CropController@delete')->name('delete');
+	Route::post('/search', 'CropController@search')->name('search');
 });

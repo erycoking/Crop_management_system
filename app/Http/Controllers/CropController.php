@@ -148,4 +148,14 @@ class CropController extends Controller
         $crop = Crop::find($id);
         return view('pages.crop.confirmDelete')->withCrop($crop);
     }
+
+    public function search(Request $request){
+        $search_string  = $request->input('search_string');
+
+        $crop = Crop::where('name', 'LIKE', '%'.$search_string.'%')
+            ->orWhere('farming_method', 'LIKE', '%'.$search_string.'%')
+            ->get();
+
+        return view('pages.crop.search')->withCrop($crop);
+    }
 }
