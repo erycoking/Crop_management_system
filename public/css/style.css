@@ -1,0 +1,26 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+html, body{
+    height: 100%;
+}
+
+.body{
+    min-height: 100%;
+}
+.content{
+    overflow: auto;
+}
+
+.footer{
+    min-height: 30px;
+    margin-top: -30px;
+    background-color: black;
+    position: relative;
+    padding: 10px 0px 10px;
+}
+
+.footer p{
+    color: floralwhite;
+}
