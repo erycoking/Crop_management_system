@@ -49,7 +49,7 @@ class CropController extends Controller
         ]);
 
         $crop_existing = Crop::where('name', '=', $request->input('name'))->get();
-        if(count($crop_existing) > 0){
+        if($crop_existing->count() > 0){
             return redirect()->back()->withErrors( 'crops already exists');
         }else{
             $crop = new Crop;
@@ -64,7 +64,7 @@ class CropController extends Controller
             $unique = $new_diseases->unique();
             foreach ($unique as $value) {
                 $disease = Disease::where('name', '=', $value)->first();
-                if (count($disease) > 0){
+                if (!is_null($disease)){
                     $crop->disease()->attach($disease);
                 }else{
                     $dis = new Disease;
@@ -138,9 +138,14 @@ class CropController extends Controller
         $new_diseases = collect($diseases);
         $unique = $new_diseases->unique();
         foreach ($unique as $value) {
-            $dis = new Disease;
-            $dis->name = $value;
-            $crop->disease()->save($dis);
+            $disease = Disease::where('name', '=', $value)->first();
+            if (!is_null($disease)){
+                $crop->disease()->attach($disease);
+            }else{
+                $dis = new Disease;
+                $dis->name = $value;
+                $crop->disease()->save($dis);
+            }
         }
 
         return redirect()->route('crop.show', [$crop]);
